@@ -9,6 +9,8 @@ RUN PACKAGES_TO_INSTALL="sudo git cron php7.0-dev composer php-xdebug php7.0-mbs
     apt-get autoremove -y && \
     apt-get clean && \
     apt-get autoclean
+    
+RUN pecl install yaml
 
 RUN git clone https://github.com/phalcon/zephir.git && \
     cd zephir && \

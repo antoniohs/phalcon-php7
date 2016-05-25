@@ -3,7 +3,7 @@ MAINTAINER Antonio Manuel Hernández Sánchez
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN PACKAGES_TO_INSTALL="sudo git cron php7.0-dev composer php-xdebug php7.0-mbstring php7.0-curl re2c php7.0-fpm nginx supervisor libyaml-dev sqlite php7.0-sqlite3" && \
+RUN PACKAGES_TO_INSTALL="sudo git cron php7.0-dev composer php-xdebug php7.0-mbstring php7.0-curl re2c php7.0-fpm nginx supervisor libyaml-dev php7.0-mysql" && \
     apt-get update && \
     apt-get install -y $PACKAGES_TO_INSTALL && \
     apt-get autoremove -y && \

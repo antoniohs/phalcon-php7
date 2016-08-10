@@ -3,7 +3,10 @@ MAINTAINER Antonio Manuel Hernández Sánchez
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN PACKAGES_TO_INSTALL="sudo git cron php7.0-dev composer php-xdebug php7.0-mbstring php7.0-curl re2c php7.0-fpm nginx supervisor libyaml-dev php7.0-mysql" && \
+RUN PACKAGES_TO_INSTALL="sudo git cron php7.0-dev composer php-xdebug php7.0-mbstring php7.0-curl php7.0-fpm nginx supervisor libyaml-dev php7.0-mysql php7.0-phalcon" && \
+    apt-get update && \
+    apt-get install -y software-properties-common && \
+    apt-add-repository -y ppa:phalcon/stable && \
     apt-get update && \
     apt-get install -y $PACKAGES_TO_INSTALL && \
     apt-get autoremove -y && \
@@ -15,22 +18,9 @@ RUN pecl install yaml-beta && \
     ln -s /etc/php/7.0/mods-available/yaml.ini /etc/php/7.0/cli/conf.d/50-yaml.ini && \
     ln -s /etc/php/7.0/mods-available/yaml.ini /etc/php/7.0/fpm/conf.d/50-yaml.ini
 
-RUN git clone https://github.com/phalcon/zephir.git && \
-    cd zephir && \
-    ./install -c && \
-    cd ..
-
-RUN git clone https://github.com/phalcon/cphalcon.git && \
-    cd cphalcon && \
-    git checkout 2.1.x && \
-    zephir build --backend=ZendEngine3 && \
-    cd .. && \
-    echo 'extension=phalcon.so' > /etc/php/7.0/mods-available/phalcon.ini && \
+RUN echo 'extension=phalcon.so' > /etc/php/7.0/mods-available/phalcon.ini && \
     ln -s /etc/php/7.0/mods-available/phalcon.ini /etc/php/7.0/cli/conf.d/50-phalcon.ini && \
     ln -s /etc/php/7.0/mods-available/phalcon.ini /etc/php/7.0/fpm/conf.d/50-phalcon.ini
-
-RUN rm -rf cphalcon && rm -rf zephir
-
 
 # configure NGINX as non-daemon
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
